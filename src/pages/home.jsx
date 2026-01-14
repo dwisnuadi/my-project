@@ -33,7 +33,7 @@ function Home() {
       >
         <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative mx-auto max-w-5xl px-6 p-28 text-white text-center ">
+        <div className="relative mx-auto max-w-5xl px-6 py-8 md:py-16 lg:py-28 text-white text-center ">
           <h1 className="text-4xl font-bold leading-tight">
             Revolusi Pembelajaran: Temukan <br />
             Ilmu Baru melalui Platform Video <br />
@@ -71,11 +71,11 @@ function Home() {
 
     </div>
 
-        <div className="mt-8 grid grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
-              className="w-96 h-104 overflow-hidden rounded-xl border shadow"
+              className="overflow-hidden rounded-xl border shadow"
             >
               <img
                 src={courseImages[i]}
@@ -128,7 +128,7 @@ function Home() {
       >
         <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative z-10 mx-auto max-w-4xl px-6 p-28 text-white text-center">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 py-8 md:py-16 lg:py-28 text-white text-center">
           <h1 className="text-3xl font-bold">
             NEWSLETTER <br /> MAU BELAJAR LEBIH BANYAK?
           </h1>
@@ -153,7 +153,7 @@ function Home() {
 
       {/* ================= FOOTER ================= */}
       <footer className="bg-white text-black">
-        <div className="mx-auto max-w-7xl px-6 py-10 grid gap-8 md:grid-cols-4 ">
+        <div className="mx-auto max-w-7xl px-6 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 ">
           <div>
             <img
               src="/src/assets/images/Logo.png"
