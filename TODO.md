@@ -1,5 +1,6 @@
-- [x] Update home.jsx grid to be responsive: grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-- [x] Remove fixed widths (w-96) and heights (h-104) in course cards
-  - [x] Adjust hero section padding for mobile
-- [x] Make footer grid responsive
-- [x] Test mobile responsiveness
+- [ ] Import images as modules in home.jsx
+- [ ] Import images as modules in login.jsx
+- [ ] Import images as modules in register.jsx
+- [ ] Update vite.config.js for proper asset handling
+- [ ] Test build locally
+- [ ] Deploy to Vercel/Netlify
