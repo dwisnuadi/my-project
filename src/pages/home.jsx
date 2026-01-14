@@ -1,32 +1,5 @@
 
 
-import logo from '../assets/images/Logo.png';
-import heroBg1 from '../assets/images/5.jpg';
-import heroBg2 from '../assets/images/6.jpg';
-import course1 from '../assets/images/178e67438c9e6fbe4978be3387d7b68741986339.jpg';
-import course2 from '../assets/images/63d7769c286b295990b96d6fed1cbf0131ac467a.jpg';
-import course3 from '../assets/images/ed59de3f4c716638c4b0b880f4d4e94e6a7e2a3d.jpg';
-import course4 from '../assets/images/ae7645a26e5b3d3d079b37265508dc0743a960b8.jpg';
-import course5 from '../assets/images/6eae93f1cdfe637146f9e9b161d1e323f840e75d.jpg';
-import course6 from '../assets/images/5c5549fc96f5efd8db74e577b725111e64ca783e.jpg';
-import course7 from '../assets/images/5dc102b762324a31d3cdb502fcee6d64a11e0f77.jpg';
-import course8 from '../assets/images/eadaad280a0629a1c47135c68ec78f0de1f1a528.jpg';
-import course9 from '../assets/images/a645a5cd223894f5f60f082c31a25b5a29935827.jpg';
-import instructor1 from '../assets/images/e0f45fcb04a5be3e74157ed546f35c0cb9e966aa.png';
-import instructor2 from '../assets/images/8740dd055875e91705f2cca8f6549626572381d3.png';
-import instructor3 from '../assets/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png';
-import instructor4 from '../assets/images/378c821c92a7971a3e27aadb5597638328624b71.png';
-import instructor5 from '../assets/images/410450f501af98c2b8ab2f802cea55edadedd4ff.png';
-import instructor6 from '../assets/images/e630fa3d54a1d5ec68fbf4600cc71ac4a0263b3a.png';
-import instructor7 from '../assets/images/b48ec52a2da30013772100319ae07d2b5b138174.png';
-import instructor8 from '../assets/images/d39d214beca22b05813832f2e3cfd0970a181715.png';
-import instructor9 from '../assets/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png';
-import avatar from '../assets/images/Avatar.png';
-import social1 from '../assets/images/ucide icon.png';
-import social2 from '../assets/images/Vector.png';
-import social3 from '../assets/images/Lucide Icon.png';
-import social4 from '../assets/images/twitter.png';
-
 function Home() {
   return (
     <div className="font-sans bg-orchid-white-50">
@@ -34,7 +7,7 @@ function Home() {
       <header className="w-full bg-white shadow">
         <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
           <img
-            src={logo}
+            src="/src/assets/images/Logo.png"
             alt="logo"
             className="h-10"
           />
@@ -44,7 +17,7 @@ function Home() {
               Kategori
             </span>
             <img
-              src={avatar}
+              src="/src/assets/images/Avatar.png"
               className="h-8 w-8 rounded-full"
             />
           </div>
@@ -55,7 +28,7 @@ function Home() {
       <section
         className="relative max-w-6xl mx-auto bg-center bg-cover mt-16 filter brightness-100 "
         style={{
-          backgroundImage: `url(${heroBg1})`,
+          backgroundImage: "url('/src/assets/images/5.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/60" />
@@ -150,7 +123,7 @@ function Home() {
       <section
         className="relative max-w-7xl mx-auto bg-center bg-cover mb-10 "
         style={{
-          backgroundImage: `url(${heroBg2})`,
+          backgroundImage: "url('/src/assets/images/6.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/60" />
@@ -183,7 +156,7 @@ function Home() {
         <div className="mx-auto max-w-7xl px-6 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 ">
           <div>
             <img
-              src={logo}
+              src="/src/assets/images/Logo.png"
               className="h-14 w-52 mb-4"
             />
             <p className="text-3 font-bold ml-4">
@@ -244,34 +217,34 @@ function Home() {
 }
 
 const courseImages = [
-  course1,
-  course2,
-  course3,
-  course4,
-  course5,
-  course6,
-  course7,
-  course8,
-  course9
+  "/src/assets/images/178e67438c9e6fbe4978be3387d7b68741986339.jpg",
+  "/src/assets/images/63d7769c286b295990b96d6fed1cbf0131ac467a.jpg",
+  "/src/assets/images/ed59de3f4c716638c4b0b880f4d4e94e6a7e2a3d.jpg",
+  "/src/assets/images/ae7645a26e5b3d3d079b37265508dc0743a960b8.jpg",
+  "/src/assets/images/6eae93f1cdfe637146f9e9b161d1e323f840e75d.jpg",
+  "/src/assets/images/5c5549fc96f5efd8db74e577b725111e64ca783e.jpg",
+  "/src/assets/images/5dc102b762324a31d3cdb502fcee6d64a11e0f77.jpg",
+  "/src/assets/images/eadaad280a0629a1c47135c68ec78f0de1f1a528.jpg",
+  "/src/assets/images/a645a5cd223894f5f60f082c31a25b5a29935827.jpg"
 ];
 
 const instructorImages = [
-  instructor1,
-  instructor2,
-  instructor3,
-  instructor4,
-  instructor5,
-  instructor6,
-  instructor7,
-  instructor8,
-  instructor9
+  "/src/assets/images/e0f45fcb04a5be3e74157ed546f35c0cb9e966aa.png",
+  "/src/assets/images/8740dd055875e91705f2cca8f6549626572381d3.png",
+  "/src/assets/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png",
+  "/src/assets/images/378c821c92a7971a3e27aadb5597638328624b71.png",
+  "/src/assets/images/410450f501af98c2b8ab2f802cea55edadedd4ff.png",
+  "/src/assets/images/e630fa3d54a1d5ec68fbf4600cc71ac4a0263b3a.png",
+  "/src/assets/images/b48ec52a2da30013772100319ae07d2b5b138174.png",
+  "/src/assets/images/d39d214beca22b05813832f2e3cfd0970a181715.png",
+  "/src/assets/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png"
 ];
-const socialMediaImages =
-[   social1,
-    social2,
-    social3,
-    social4
-
+const socialMediaImages = 
+[   "/src/assets/images/ucide icon.png",
+    "/src/assets/images/Vector.png",
+    "/src/assets/images/Lucide Icon.png",
+    "/src/assets/images/twitter.png"
+  
 ];
 
 export default Home;
