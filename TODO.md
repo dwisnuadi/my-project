@@ -1,0 +1,2 @@
+- [x] Change the course section to display 9 course cards by modifying the array length from 8 to 9 in home.jsx
+- [x] Center the text in both hero sections (top and bottom) by adding fixed heights and using flexbox
