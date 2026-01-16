@@ -28,7 +28,7 @@ function Home() {
       <section
         className="relative max-w-6xl mx-auto bg-center bg-cover mt-16 filter brightness-100 "
         style={{
-          backgroundImage: "url('/src/assets/images/5.jpg')",
+          backgroundImage: "url('/images/5.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/60" />
