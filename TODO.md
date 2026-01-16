@@ -1,6 +1,5 @@
-- [ ] Import images as modules in home.jsx
-- [ ] Import images as modules in login.jsx
-- [ ] Import images as modules in register.jsx
-- [ ] Update vite.config.js for proper asset handling
-- [ ] Test build locally
-- [ ] Deploy to Vercel/Netlify
+- [x] Change base in vite.config.js to '/'
+- [x] Move all images from src/assets/images to public/images
+- [x] Update image src attributes in src/pages/login.jsx to use /images/ paths
+- [x] Update image src attributes in src/pages/register.jsx to use /images/ paths
+- [x] Update image src attributes and backgroundImage styles in src/pages/home.jsx to use /images/ paths

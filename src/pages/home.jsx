@@ -7,7 +7,7 @@ function Home() {
       <header className="w-full bg-white shadow">
         <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
           <img
-            src="/src/assets/images/Logo.png"
+            src="/images/Logo.png"
             alt="logo"
             className="h-10"
           />
@@ -17,7 +17,7 @@ function Home() {
               Kategori
             </span>
             <img
-              src="/src/assets/images/Avatar.png"
+              src="/images/Avatar.png"
               className="h-8 w-8 rounded-full"
             />
           </div>
@@ -123,7 +123,7 @@ function Home() {
       <section
         className="relative max-w-7xl mx-auto bg-center bg-cover mb-10 "
         style={{
-          backgroundImage: "url('/src/assets/images/6.jpg')",
+          backgroundImage: "url('/images/6.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/60" />
@@ -156,7 +156,7 @@ function Home() {
         <div className="mx-auto max-w-7xl px-6 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 ">
           <div>
             <img
-              src="/src/assets/images/Logo.png"
+              src="/images/Logo.png"
               className="h-14 w-52 mb-4"
             />
             <p className="text-3 font-bold ml-4">
@@ -217,34 +217,34 @@ function Home() {
 }
 
 const courseImages = [
-  "/src/assets/images/178e67438c9e6fbe4978be3387d7b68741986339.jpg",
-  "/src/assets/images/63d7769c286b295990b96d6fed1cbf0131ac467a.jpg",
-  "/src/assets/images/ed59de3f4c716638c4b0b880f4d4e94e6a7e2a3d.jpg",
-  "/src/assets/images/ae7645a26e5b3d3d079b37265508dc0743a960b8.jpg",
-  "/src/assets/images/6eae93f1cdfe637146f9e9b161d1e323f840e75d.jpg",
-  "/src/assets/images/5c5549fc96f5efd8db74e577b725111e64ca783e.jpg",
-  "/src/assets/images/5dc102b762324a31d3cdb502fcee6d64a11e0f77.jpg",
-  "/src/assets/images/eadaad280a0629a1c47135c68ec78f0de1f1a528.jpg",
-  "/src/assets/images/a645a5cd223894f5f60f082c31a25b5a29935827.jpg"
+  "/images/178e67438c9e6fbe4978be3387d7b68741986339.jpg",
+  "/images/63d7769c286b295990b96d6fed1cbf0131ac467a.jpg",
+  "/images/ed59de3f4c716638c4b0b880f4d4e94e6a7e2a3d.jpg",
+  "/images/ae7645a26e5b3d3d079b37265508dc0743a960b8.jpg",
+  "/images/6eae93f1cdfe637146f9e9b161d1e323f840e75d.jpg",
+  "/images/5c5549fc96f5efd8db74e577b725111e64ca783e.jpg",
+  "/images/5dc102b762324a31d3cdb502fcee6d64a11e0f77.jpg",
+  "/images/eadaad280a0629a1c47135c68ec78f0de1f1a528.jpg",
+  "/images/a645a5cd223894f5f60f082c31a25b5a29935827.jpg"
 ];
 
 const instructorImages = [
-  "/src/assets/images/e0f45fcb04a5be3e74157ed546f35c0cb9e966aa.png",
-  "/src/assets/images/8740dd055875e91705f2cca8f6549626572381d3.png",
-  "/src/assets/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png",
-  "/src/assets/images/378c821c92a7971a3e27aadb5597638328624b71.png",
-  "/src/assets/images/410450f501af98c2b8ab2f802cea55edadedd4ff.png",
-  "/src/assets/images/e630fa3d54a1d5ec68fbf4600cc71ac4a0263b3a.png",
-  "/src/assets/images/b48ec52a2da30013772100319ae07d2b5b138174.png",
-  "/src/assets/images/d39d214beca22b05813832f2e3cfd0970a181715.png",
-  "/src/assets/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png"
+  "/images/e0f45fcb04a5be3e74157ed546f35c0cb9e966aa.png",
+  "/images/8740dd055875e91705f2cca8f6549626572381d3.png",
+  "/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png",
+  "/images/378c821c92a7971a3e27aadb5597638328624b71.png",
+  "/images/410450f501af98c2b8ab2f802cea55edadedd4ff.png",
+  "/images/e630fa3d54a1d5ec68fbf4600cc71ac4a0263b3a.png",
+  "/images/b48ec52a2da30013772100319ae07d2b5b138174.png",
+  "/images/d39d214beca22b05813832f2e3cfd0970a181715.png",
+  "/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png"
 ];
-const socialMediaImages = 
-[   "/src/assets/images/ucide icon.png",
-    "/src/assets/images/Vector.png",
-    "/src/assets/images/Lucide Icon.png",
-    "/src/assets/images/twitter.png"
-  
+const socialMediaImages =
+[   "/images/ucide icon.png",
+    "/images/Vector.png",
+    "/images/Lucide Icon.png",
+    "/images/twitter.png"
+
 ];
 
 export default Home;
