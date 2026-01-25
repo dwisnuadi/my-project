@@ -2,63 +2,50 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(true);
+  const [eror, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  // Form state
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  // Validation errors state
-  const [errors, setErrors] = useState({});
-
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ""
-      }));
-    }
-  };
-
-  // Validation functions
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Email wajib diisi";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Format email tidak valid";
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = "Kata sandi wajib diisi";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handlelogin = (e) => {
     e.preventDefault();
+    setError("");
 
-    if (validateForm()) {
-      // Here you would typically send the data to your backend for authentication
-      console.log("Login data:", formData);
-      // For now, navigate to home after successful validation
-      navigate("/home");
+    if (!email || !password) {
+      setError("Email dan Password wajib diisi");
+      return;
     }
+
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!isEmailValid) {
+      setError("Format email tidak valid");
+      return;
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      // Ambil data users dari localStorage
+      const users = JSON.parse(localStorage.getItem("user")) || [];
+
+      // Cari user yang cocok
+      const found = users.find(
+        u => u.email === email && u.password === password
+      );
+
+      if (found) {
+        alert("Login Berhasil");
+        navigate("/home");
+      } else {
+        setError("Email atau password salah");
+      }
+
+      setLoading(false);
+    }, 1500);
   };
 
   return (
@@ -82,7 +69,7 @@ export default function Login() {
             Yuk, lanjutin belajarmu di videobelajar.
           </p>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handlelogin}>
 
             {/* Email */}
             <div>
@@ -92,35 +79,47 @@ export default function Login() {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Masukkan email"
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
-                required
-              />
-              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                value={email}
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Masukkan e-mail"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 
+              focus:outline-none focus:ring-2 focus:ring-indigo-400" 
+                />
+
             </div>
+          
 
             {/* Password */}
             <div>
               <label className="block text-sm font-medium mb-1">
                 Kata Sandi <span className="text-red-500">*</span>
-              </label>
+              </label>  
               <input
-                type="password"
+                type={showPass ? "text" : "password"}
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Masukkan kata sandi"
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                }`}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none border-gray-300"
+                autoComplete="current-password"
                 required
               />
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="mt-2 text-sm text-gray-600 hover:underline"
+              >
+                {showPass ? "Sembunyikan Kata Sandi" : "Tampilkan Kata Sandi"}
+              </button>
             </div>
+
+            {/* Error Message */}
+            {eror && (
+              <div className="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">
+                {eror}
+              </div>
+            )}
 
             {/* Forgot */}
             <div className="text-right">
@@ -132,9 +131,12 @@ export default function Login() {
             {/* Masuk */}
             <button
               type="submit"
-              className="w-full bg-green-500 hover:bg-yellow-300 text-white py-2 rounded-lg font-semibold"
+              disabled={loading}
+              className={`w-full text-white py-2 rounded-lg font-semibold transition ${
+                loading ? 'opacity-50 cursor-not-allowed bg-gray-500' : 'bg-green-500 hover:bg-green-600'
+              }`}
             >
-              Masuk
+              {loading ? "Memuat..." : "Masuk"}
             </button>
 
             {/* Daftar */}

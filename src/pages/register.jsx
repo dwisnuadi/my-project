@@ -3,91 +3,112 @@ import { useState } from "react";
 
 export default function Register() {
   const navigate = useNavigate();
+  
+//  json array object 
 
-  // Form state
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-  });
+const [user, setUser] = useState(() => {
+  return JSON.parse(localStorage.getItem('user')) || [];
+});
 
-  // Password visibility state
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+// Form state
+const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
+});
 
-  // Validation errors state
-  const [errors, setErrors] = useState({});
+// Password visibility state
+const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+// Validation errors state
+const [errors, setErrors] = useState({});
+
+// Handle input changes
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({
+    ...prev,
+    [name]: value
+  }));
+  // Clear error when user starts typing
+  if (errors[name]) {
+    setErrors(prev => ({
       ...prev,
-      [name]: value
+      [name]: ""
     }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ""
-      }));
+  }
+};
+
+// Validation functions
+const validateForm = () => {
+  const newErrors = {};
+
+  // Name validation
+  if (!formData.name.trim()) {
+    newErrors.name = "Nama lengkap wajib diisi";
+  }
+
+  // Email validation
+  if (!formData.email.trim()) {
+    newErrors.email = "Email wajib diisi";
+  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    newErrors.email = "Format email tidak valid";
+  }
+
+  // Phone validation
+  if (!formData.phone.trim()) {
+    newErrors.phone = "Nomor HP wajib diisi";
+  } else if (!/^[0-9]{10,13}$/.test(formData.phone.replace(/\D/g, ""))) {
+    newErrors.phone = "Nomor HP tidak valid (10-13 digit)";
+  }
+
+  // Password validation
+  if (!formData.password) {
+    newErrors.password = "Kata sandi wajib diisi";
+  } else if (formData.password.length < 8) {
+    newErrors.password = "Kata sandi minimal 8 karakter";
+  }
+
+  // Confirm password validation
+  if (!formData.confirmPassword) {
+    newErrors.confirmPassword = "Konfirmasi kata sandi wajib diisi";
+  } else if (formData.password !== formData.confirmPassword) {
+    newErrors.confirmPassword = "Kata sandi tidak cocok";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
+// Handle form submission
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (validateForm()) {
+    const exist = user.find((u) => u.email === formData.email);
+    if (exist) {
+      setErrors({ email: "Email sudah terpakai" });
+      return;
     }
-  };
 
-  // Validation functions
-  const validateForm = () => {
-    const newErrors = {};
+    const newUser = {
+      id: Date.now(),
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    };
 
-    // Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = "Nama lengkap wajib diisi";
-    }
+    const updatedUsers = [...user, newUser];
+    setUser(updatedUsers);
+    localStorage.setItem("user", JSON.stringify(updatedUsers));
 
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Email wajib diisi";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Format email tidak valid";
-    }
-
-    // Phone validation
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Nomor HP wajib diisi";
-    } else if (!/^[0-9]{10,13}$/.test(formData.phone.replace(/\D/g, ""))) {
-      newErrors.phone = "Nomor HP tidak valid (10-13 digit)";
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = "Kata sandi wajib diisi";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Kata sandi minimal 8 karakter";
-    }
-
-    // Confirm password validation
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Konfirmasi kata sandi wajib diisi";
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Kata sandi tidak cocok";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      // Here you would typically send the data to your backend
-      console.log("Registration data:", formData);
-      // For now, navigate to home after successful registration
-      navigate("/home");
-    }
-  };
+    alert("Selamat! Kamu sudah bergabung");
+    navigate("/src/pages/login.jsx");
+  }
+};
 
   return (
     <div className="min-h-screen bg-orchid-white-50">
