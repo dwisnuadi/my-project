@@ -116,7 +116,7 @@ const handleSubmit = (e) => {
       {/* Navbar */}
       <header className="bg-white border-b px-6 py-3 flex items-center">
         <img
-          src="/src/assets/images/Logo.png"
+          src="/images/Logo.png"
           alt="Logo"
           className="h-10"
         />
@@ -186,7 +186,7 @@ const handleSubmit = (e) => {
                   className="flex items-center px-3 bg-gray-200 border-r border-gray-300 hover:bg-gray-300"
                 >
                   <img
-                    src="/src/assets/images/Indonesia (ID).png"
+                    src="/images/Indonesia (ID).png"
                     alt="Indonesia"
                     className="w-5 h-4 mr-2"
                   />
@@ -241,7 +241,7 @@ const handleSubmit = (e) => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 >
                   <img
-                    src="/src/assets/images/mdi_eye-off.png"
+                    src="/images/mdi_eye-off.png"
                     alt="Toggle password visibility"
                     className="w-5 h-5"
                   />
@@ -273,7 +273,7 @@ const handleSubmit = (e) => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 >
                   <img
-                    src="/src/assets/images/mdi_eye-off.png"
+                    src="/images/mdi_eye-off.png"
                     alt="Toggle password visibility"
                     className="w-5 h-5"
                   />
@@ -318,7 +318,7 @@ const handleSubmit = (e) => {
               className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100 transition"
             >
               <img
-                src="/src/assets/images/logos_google-icon.png"
+                src="/images/logos_google-icon.png"
                 width="18"
                 alt="Google"
               />

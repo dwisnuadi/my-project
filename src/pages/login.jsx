@@ -54,7 +54,7 @@ export default function Login() {
       {/* Navbar */}
       <header className="bg-white border-b border-gray-100 py-4 shadow-2xs px-6">
         <img
-          src="/src/assets/images/Logo.png"
+          src="/images/Logo.png"
           alt="Logo"
           className="h-10"
         />
@@ -160,7 +160,7 @@ export default function Login() {
               className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
             >
               <img
-                src="/src/assets/images/logos_google-icon.png"
+                src="/images/logos_google-icon.png"
                 alt="Google"
                 className="w-5 h-5"
               />
