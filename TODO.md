@@ -1,5 +1,0 @@
-- [x] Change base in vite.config.js to '/'
-- [x] Move all images from src/assets/images to public/images
-- [x] Update image src attributes in src/pages/login.jsx to use /images/ paths
-- [x] Update image src attributes in src/pages/register.jsx to use /images/ paths
-- [x] Update image src attributes and backgroundImage styles in src/pages/home.jsx to use /images/ paths
