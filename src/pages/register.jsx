@@ -1,10 +1,40 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
+
+
+const baseURL = "https://697f08fad1548030ab64fff0.mockapi.io/register";
+
+export function PostApp (){
+  const [post , setPost] = useState(null);
+
+  useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data);
+    }).catch(error => {
+      console.error("There was an error!", error);
+    });
+  }, []);
+  if (!post) return <p>Loading...</p>;
+  return (
+    <div>
+      <h1>Posts</h1>
+      <ul>
+        {post.map((post) => (
+          <li key={post.id}>
+            {post.title}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function Register() {
   const navigate = useNavigate();
-  
-//  json array object 
+
+//  json array object
 
 const [user, setUser] = useState(() => {
   return JSON.parse(localStorage.getItem('user')) || [];
@@ -84,30 +114,41 @@ const validateForm = () => {
 };
 
 // Handle form submission
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
+  console.log("=== DATA REGISTER ===");
+  console.log(formData);
 
-  if (validateForm()) {
-    const exist = user.find((u) => u.email === formData.email);
-    if (exist) {
-      setErrors({ email: "Email sudah terpakai" });
-      return;
-    }
-
-    const newUser = {
-      id: Date.now(),
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    };
-
-    const updatedUsers = [...user, newUser];
-    setUser(updatedUsers);
-    localStorage.setItem("user", JSON.stringify(updatedUsers));
-
-    alert("Selamat! Kamu sudah bergabung");
-    navigate("/src/pages/login.jsx");
+  if (!validateForm()) {
+    return;
   }
+
+  const exist = user.find((u) => u.email === formData.email);
+  if (exist) {
+    setErrors({ email: "Email sudah terpakai" });
+    return;
+  }
+
+  try {
+    const response = await axios.post(baseURL, formData);
+    console.log("Register API Response:", response.data);
+  } catch (error) {
+    console.error("Register API Error:", error);
+  }
+
+  const newUser = {
+    id: Date.now(),
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+  };
+
+  const updatedUsers = [...user, newUser];
+  setUser(updatedUsers);
+  localStorage.setItem("user", JSON.stringify(updatedUsers));
+
+  alert("Selamat! Kamu sudah bergabung");
+  navigate("/");
 };
 
   return (
@@ -230,6 +271,7 @@ const handleSubmit = (e) => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="********"
+                  autoComplete="newpass"
                   className={`mt-1 w-full rounded-lg border px-3 py-2 pr-10 focus:ring-2 focus:ring-blue-500 outline-none ${
                     errors.password ? "border-red-500" : "border-gray-300"
                   }`}
@@ -262,6 +304,7 @@ const handleSubmit = (e) => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="********"
+                  autoComplete="newpass"
                   className={`mt-1 w-full rounded-lg border px-3 py-2 pr-10 focus:ring-2 focus:ring-blue-500 outline-none ${
                     errors.confirmPassword ? "border-red-500" : "border-gray-300"
                   }`}
