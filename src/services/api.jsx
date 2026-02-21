@@ -7,7 +7,7 @@ const API = axios.create({
   },
 });
 export const getUsers = async () => API.get(" ");
-  export const getPosts = async () => API.get("/posts");
+  export const getPosts = async () => API.get("/register");
 export const addPost = async (data) => API.post("/register", data);
 export const updatePost = async (id, data) => API.put(`/register/${id}`, data);
-export const deletePost = async (id) => API.delete(`/posts/${id}`);    
+export const deletePost = async (id) => API.delete(`/register/${id}`);    
