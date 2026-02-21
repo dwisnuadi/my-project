@@ -1,6 +1,20 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../redux/authReducer";
 
 function Home() {
+  const dispatch = useDispatch();
+  const { data, status } = useSelector((state) => state.auth );
+
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  if (status === "loading") return <p>Loading...</p>;
+  if (status === "error") return <p>Gagal load data</p>;
+
   return (
     <div className="font-sans bg-orchid-white-50">
       {/* ================= NAVBAR ================= */}
@@ -72,51 +86,47 @@ function Home() {
     </div>
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(9)].map((_, i) => (
-            <div
-              key={i}
-              className="overflow-hidden rounded-xl border shadow"
-            >
-              <img
-                src={courseImages[i]}
-                className="h-56 w-full object-cover"
-              />
+  {data.map((item, i) => (
+    <div key={item.id || i} className="overflow-hidden rounded-xl border shadow">
+      <img
+        src={courseImages[i % courseImages.length]}
+        className="h-56 w-full object-cover"
+      />
 
-              <div className="p-4 flex flex-col justify-between h-48">
-                <div>
-                  <h3 className="text-sm font-bold">
-                    Big 4 Auditor Financial Analyst
-                  </h3>
-                  <p className="mt-2 text-xs text-gray-600">
-                    Mulai transformasi dengan instruktur profesional...
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2 mt-4">
-                    <img
-                      src={instructorImages[i]}
-                      className="h-8 w-8 rounded-full"
-                    />
-                    <div className="text-xs">
-                      <strong>Jenna Ortega</strong>
-                      <p className="text-gray-500">
-                        Senior Accountant di Gojek
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex justify-between text-xs">
-                    <span>⭐⭐⭐☆☆ 3.5 (86)</span>
-                    <span className="font-bold text-green-500 text-2xl">
-                      Rp 300K
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+      <div className="p-4 flex flex-col justify-between h-48">
+        <div>
+          <h3 className="text-sm font-bold">
+            {item.title || item.email}
+          </h3>
+          <p className="mt-2 text-xs text-gray-600">
+            {item.description || "Belajar skill profesional dari mentor terbaik"}
+          </p>
         </div>
+
+        <div>
+          <div className="flex items-center gap-2 mt-4">
+            <img
+              src={instructorImages[i % instructorImages.length]}
+              className="h-8 w-8 rounded-full"
+            />
+            <div className="text-xs">
+              <strong>{item.instructor || "Mentor Pro"}</strong>
+              <p className="text-gray-500">Senior Trainer</p>
+            </div>
+          </div>
+
+          <div className="mt-3 flex justify-between text-xs">
+            <span>⭐⭐⭐☆☆ 3.5 (86)</span>
+            <span className="font-bold text-green-500 text-2xl">
+              Rp {item.price || "300K"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+  
       </section>
 
       {/* ================= HERO BOTTOM ================= */}
@@ -247,4 +257,4 @@ const socialMediaImages =
 
 ];
 
-export default Home;
+export default Home;  

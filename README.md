@@ -5,5 +5,5 @@ main api link
 https://697f08fad1548030ab64fff0.mockapi.io/register 
 register api link 
 
-https://697f08fad1548030ab64fff0.mockapi.io/login
-login api link 
+https://697f08fad1548030ab64fff0.mockapi.io/posts
+posts api link  

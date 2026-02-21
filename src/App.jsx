@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login, { PostApp } from "./pages/login";
+import Login from "./pages/login";
+import PostApp from "./pages/postapp";
 import Register from "./pages/register";
 import Forget from "./pages/forget";
 import Home from "./pages/home";

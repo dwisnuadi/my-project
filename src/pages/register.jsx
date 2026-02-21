@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-
-
 const baseURL = "https://697f08fad1548030ab64fff0.mockapi.io/register";
 
 export function PostApp (){
@@ -37,7 +35,9 @@ export default function Register() {
 //  json array object
 
 const [user, setUser] = useState(() => {
-  return JSON.parse(localStorage.getItem('user')) || [];
+  const data = JSON.parse(localStorage.getItem("user"));
+  return Array.isArray(data) ? data : [];
+  
 });
 
 // Form state
@@ -116,12 +116,12 @@ const validateForm = () => {
 // Handle form submission
 const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log("=== DATA REGISTER ===");
-  console.log(formData);
 
-  if (!validateForm()) {
-    return;
-  }
+  console.log ('tombol register diklik ');
+
+  if (!validateForm()) return;
+
+  console.log ('DATA FORM:', formData);
 
   const exist = user.find((u) => u.email === formData.email);
   if (exist) {
@@ -130,26 +130,30 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const response = await axios.post(baseURL, formData);
-    console.log("Register API Response:", response.data);
+    const response= await axios.post(baseURL, FormData);
+
+    console.log ("API response;", response.data);
+
+    const newUser = {
+      id: Date.now(),
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    const updatedUsers = [...user, newUser];
+    setUser(updatedUsers);
+    localStorage.setItem("user", JSON.stringify(updatedUsers));
+
+    alert("Selamat Bergabung!");
+    navigate("/");
+
   } catch (error) {
     console.error("Register API Error:", error);
+    alert("Gagal daftar ke server");
   }
-
-  const newUser = {
-    id: Date.now(),
-    name: formData.name,
-    email: formData.email,
-    password: formData.password,
-  };
-
-  const updatedUsers = [...user, newUser];
-  setUser(updatedUsers);
-  localStorage.setItem("user", JSON.stringify(updatedUsers));
-
-  alert("Selamat! Kamu sudah bergabung");
-  navigate("/");
 };
+
 
   return (
     <div className="min-h-screen bg-orchid-white-50">
@@ -341,13 +345,12 @@ const handleSubmit = async (e) => {
             </button>
 
             {/* Masuk */}
-            <Link
-              to="/"
-              className="block w-full text-center border border-gray-300 py-2 rounded-lg font-semibold hover:bg-gray-100 transition"
-            >
-              Masuk
-            </Link>
-
+            <p className="text-center text-sm text-gray-500">
+              Sudah punya akun?{" "}
+              <Link to="/" className="text-blue-600 hover:underline">
+                Masuk
+              </Link>
+            </p>
             {/* Divider */}
             <div className="flex items-center gap-2 text-gray-400 text-sm">
               <hr className="flex-1" />

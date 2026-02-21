@@ -1,225 +1,146 @@
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+  import { Link, useNavigate } from "react-router-dom";
+  import { useState, useEffect } from "react";
+  import { useDispatch, useSelector } from "react-redux";
+  import { fetchData } from "../redux/authReducer";
 
-const baseURL = "https://697f08fad1548030ab64fff0.mockapi.io/login";
+  export default function Login() {
 
-export function PostApp() {
-  const [post, setPost] = useState(null);
+    const dispatch = useDispatch();
+    const {data: users, status} = useSelector((state)=> state.auth);
 
-  useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setPost(response.data);
-    }).catch(error => {
-      console.error("There was an error!", error);
-    });
-  }, []);
-  if (!post) return <p>Loading...</p>;
-  return (
-    <div>
-      <h1>Posts</h1>
-      <ul>
-        {post.map((post) => (
-          <li key={post.id}>
-            {post.title}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPass, setShowPass] = useState(false);
+    const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+    
+    const navigate = useNavigate();
 
-  const handlelogin = async (e) => {
-    e.preventDefault();
-    setError("");
 
-    console.log("=== DATA LOGIN ===");
-    console.log("Email:", email);
-    console.log("Password:", password);
+    useEffect(() => {
+      dispatch(fetchData());  
+    }, [dispatch]);
 
-    if (!email || !password) {
-      setError("Email dan Password wajib diisi");
-      return;
-    }
+    useEffect(() => {
+      console.log("redux users", users);
+    }, [users]);
 
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const handlelogin = (e) => {
+      e.preventDefault();
 
-    if (!isEmailValid) {
-      setError("Format email tidak valid");
-      return;
-    }
+      console.log ("redux users", users); 
 
-    try {
-      const response = await axios.get(baseURL, { email, password });
-
-      const user = response.data.find(
-        (u) => u.email === email && u.password === password
-      );
-
-      if (!user) {
-        localStorage.setItem("user", JSON.stringify(user));
-        navigate("/home");
-      } else {
-        setError("Email atau password salah");
+      if (!Array.isArray(users)) {
+        setError("Data pengguna tidak valid");
+        return;
       }
-      console.log("Login API Response:", response.data);
-    } catch (error) {
-      console.error("Login API Error:", error);
-    }
-
-    setLoading(true);
-
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("user")) || [];
 
       const found = users.find(
         (u) => u.email === email && u.password === password
       );
 
-      console.log("User ditemukan:", found);
-
       if (found) {
-        alert("Login Berhasil");
+        localStorage.setItem("user", JSON.stringify(found));
         navigate("/home");
       } else {
         setError("Email atau password salah");
       }
+    };
 
-      setLoading(false);
-    }, 1500);
-  };
+    if (status === "loading") return <p className="text-center">Memuat data...</p>;
+    if (status === "error") return <p className="text-center">Gagal ambil data</p>;
 
-  return (
-    <div className="min-h-screen bg-orchid-white-50">
+    return (
+      <div className="min-h-screen bg-orchid-white-50">
+        <header className="bg-white border-b py-4 shadow px-6">
+          <img src="/images/Logo.png" alt="Logo" className="h-10" />
+        </header>
 
-      {/* Navbar */}
-      <header className="bg-white border-b border-gray-100 py-4 shadow-2xs px-6">
-        <img
-          src="/images/Logo.png"
-          alt="Logo"
-          className="h-10"
-        />
-      </header>
+        <main className="flex items-center justify-center py-16 px-4">
+          <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-2xl">
+            <h2 className="text-2xl font-bold mb-1">Masuk ke Akun</h2>
+            <p className="text-gray-500 mb-6">
+              Yuk, lanjutin belajarmu di videobelajar.
+            </p>
 
-      {/* Login Container */}
-      <main className="flex items-center justify-center py-16 px-4">
-        <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-2xl">
+            <form className="space-y-4" onSubmit={handlelogin}>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  E-Mail <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-lg border px-3 py-2"
+                  required
+                />
+              </div>
 
-          <h2 className="text-2xl font-bold mb-1">Masuk ke Akun</h2>
-          <p className="text-gray-500 mb-6">
-            Yuk, lanjutin belajarmu di videobelajar.
-          </p>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Kata Sandi <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type={showPass ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-lg border px-3 py-2"
+                  required
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="mt-1 text-sm"
+                >
+                  {showPass ? "Sembunyikan" : "Tampilkan"}
+                </button>
+              </div>
 
-          <form className="space-y-4" onSubmit={handlelogin}>
+              {error && (
+                <div className="bg-red-100 text-red-700 px-4 py-2 rounded">
+                  {error}
+                </div>
+              )}
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                E-Mail <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                autoComplete="email"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Masukkan e-mail"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2
-              focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                required
-              />
+              <button
+                type="submit"
+                className="w-full bg-green-500 text-white py-2 rounded-lg"
+              >
+                Masuk
+              </button>
 
-            </div>
+              <Link
+                to="/register"
+                className="block text-center border py-2 rounded-lg"
+              >
+                Daftar
+              </Link>
 
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Kata Sandi <span className="text-red-500">*</span>
-              </label>
-              <input
-                type={showPass ? "text" : "password"}
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Masukkan kata sandi"
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none border-gray-300"
-                autoComplete="current-password"
-                required
-              />
+              {/* Divider */}
+              <div className="flex items-center my-6">
+                <div className="grow border-t border-gray-300"></div>
+                <span className="mx-4 text-gray-500 text-sm">atau</span>
+                <div className="grow border-t border-gray-300"></div>
+              </div>
+
+              {/* Google */}
               <button
                 type="button"
-                onClick={() => setShowPass(!showPass)}
-                className="mt-2 text-sm text-gray-600 hover:underline"
+                className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
               >
-                {showPass ? "Sembunyikan Kata Sandi" : "Tampilkan Kata Sandi"}
+                <img
+                  src="/images/logos_google-icon.png"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+                Masuk dengan Google
               </button>
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
-
-            {/* Forgot */}
-            <div className="text-right">
-              <Link to="/forgot" className="text-sm text-black hover:underline">
-                Lupa Password?
-              </Link>
-            </div>
-
-            {/* Masuk */}
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full text-white py-2 rounded-lg font-semibold transition ${
-                loading ? 'opacity-50 cursor-not-allowed bg-gray-500' : 'bg-green-500 hover:bg-green-600'
-              }`}
-            >
-              {loading ? "Memuat..." : "Masuk"}
-            </button>
-
-            {/* Daftar */}
-            <Link
-              to="/register"
-              className="block w-full text-center border py-2 rounded-lg font-semibold hover:bg-gray-100"
-            >
-              Daftar
-            </Link>
-
-            {/* Divider */}
-            <div className="flex items-center my-6">
-              <div className="grow border-t border-gray-300"></div>
-              <span className="mx-4 text-gray-500 text-sm">atau</span>
-              <div className="grow border-t border-gray-300"></div>
-            </div>
-
-            {/* Google */}
-            <button
-              type="button"
-              className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
-            >
-              <img
-                src="/images/logos_google-icon.png"
-                alt="Google"
-                className="w-5 h-5"
-              />
-              Masuk dengan Google
-            </button>
-
-          </form>
-        </div>
-      </main>
-    </div>
-  );
-}
+            </form>
+          </div>
+        </main>
+      </div>
+    );
+  }
