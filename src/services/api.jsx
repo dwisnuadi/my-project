@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios";  
 
 const API = axios.create({
   baseURL: "https://697f08fad1548030ab64fff0.mockapi.io",
