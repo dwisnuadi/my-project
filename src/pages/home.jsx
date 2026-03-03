@@ -5,7 +5,7 @@ import { fetchData } from "../redux/authReducer";
 
 function Home() {
   const dispatch = useDispatch();
-  const { data, status } = useSelector((state) => state.auth );
+  const { data, status } = useSelector((state) => state.auth);
 
 
   useEffect(() => {
@@ -85,9 +85,9 @@ function Home() {
 
     </div>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {data.map((item, i) => (
-    <div key={item.id || i} className="overflow-hidden rounded-xl border shadow">
+<div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {[...Array(9)].map((_, i) => (
+    <div key={i} className="overflow-hidden rounded-xl border shadow">
       <img
         src={courseImages[i % courseImages.length]}
         className="h-56 w-full object-cover"
@@ -96,10 +96,11 @@ function Home() {
       <div className="p-4 flex flex-col justify-between h-48">
         <div>
           <h3 className="text-sm font-bold">
-            {item.title || item.email}
+            Course {i + 1}
           </h3>
+
           <p className="mt-2 text-xs text-gray-600">
-            {item.description || "Belajar skill profesional dari mentor terbaik"}
+            Belajar skill profesional dari mentor terbaik
           </p>
         </div>
 
@@ -110,7 +111,7 @@ function Home() {
               className="h-8 w-8 rounded-full"
             />
             <div className="text-xs">
-              <strong>{item.instructor || "Mentor Pro"}</strong>
+              <strong>Mentor Pro</strong>
               <p className="text-gray-500">Senior Trainer</p>
             </div>
           </div>
@@ -118,7 +119,7 @@ function Home() {
           <div className="mt-3 flex justify-between text-xs">
             <span>⭐⭐⭐☆☆ 3.5 (86)</span>
             <span className="font-bold text-green-500 text-2xl">
-              Rp {item.price || "300K"}
+              Rp 300K
             </span>
           </div>
         </div>
