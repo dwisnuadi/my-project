@@ -1,13 +1,23 @@
-import axios from "axios";    
+import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://697f08fad1548030ab64fff0.mockapi.io",
+  baseURL: "http://localhost:5000",
   headers: {
     "Content-Type": "application/json",
   },
 });
-export const getUsers = async () => API.get(" ");
-  export const getPosts = async () => API.get("/register");
-export const addPost = async (data) => API.post("/register", data);
-export const updatePost = async (id, data) => API.put(`/register/${id}`, data);
-export const deletePost = async (id) => API.delete(`/register/${id}`);    
+
+// GET users
+export const getUsers = () => API.get("/users");
+
+// GET posts
+export const getPosts = () => API.get("/posts");
+
+// CREATE post
+export const addPost = (data) => API.post("/posts", data);
+
+// UPDATE post
+export const updatePost = (id, data) => API.put(`/posts/${id}`, data);
+
+// DELETE post
+export const deletePost = (id) => API.delete(`/posts/${id}`);

@@ -1,19 +1,11 @@
 import React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../redux/authReducer";
+
 
 function Home() {
-  const dispatch = useDispatch();
-  const { data, status } = useSelector((state) => state.auth);
 
 
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
 
-  if (status === "loading") return <p>Loading...</p>;
-  if (status === "error") return <p>Gagal load data</p>;
+
 
   return (
     <div className="font-sans bg-orchid-white-50">

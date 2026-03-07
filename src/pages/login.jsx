@@ -1,12 +1,9 @@
   import { Link, useNavigate } from "react-router-dom";
-  import { useState, useEffect } from "react";
-  import { useDispatch, useSelector } from "react-redux";
-  import { fetchData } from "../redux/authReducer";
+  import { useState } from "react";
+
 
   export default function Login() {
 
-    const dispatch = useDispatch();
-    const {data: users, status} = useSelector((state)=> state.auth);
 
 
     const [email, setEmail] = useState("");
@@ -17,26 +14,24 @@
     
     const navigate = useNavigate();
 
+    const user = [
+        { email: "admind@gmail.com",
+          paswoord : "admin123",
+        }
+      ];
 
-    useEffect(() => {
-      dispatch(fetchData());  
-    }, [dispatch]);
-
-    useEffect(() => {
-      console.log("redux users", users);
-    }, [users]);
 
     const handlelogin = (e) => {
       e.preventDefault();
 
-      console.log ("redux users", users); 
+      console.log ("Login attempt with:", { email, password }); 
 
-      if (!Array.isArray(users)) {
+      if (!Array.isArray()) {
         setError("Data pengguna tidak valid");
         return;
       }
 
-      const found = users.find(
+      const found = (user.find)(
         (u) => u.email === email && u.password === password
       );
 
@@ -47,9 +42,6 @@
         setError("Email atau password salah");
       }
     };
-
-    if (status === "loading") return <p className="text-center">Memuat data...</p>;
-    if (status === "error") return <p className="text-center">Gagal ambil data</p>;
 
     return (
       <div className="min-h-screen bg-orchid-white-50">
