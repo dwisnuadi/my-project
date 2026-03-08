@@ -7,17 +7,15 @@ const API = axios.create({
   },
 });
 
-// GET users
-export const getUsers = () => API.get("/users");
+// GET courses
+export const getCourses = () => API.get("/course");
 
-// GET posts
-export const getPosts = () => API.get("/posts");
+// CREATE course
+export const addCourse = (data) => API.post("/course", data);
 
-// CREATE post
-export const addPost = (data) => API.post("/posts", data);
+// UPDATE course
+export const updateCourse = (id, data) => API.put(`/course/${id}`, data);
 
-// UPDATE post
-export const updatePost = (id, data) => API.put(`/posts/${id}`, data);
+// DELETE course
+export const deleteCourse = (id) => API.delete(`/course/${id}`);
 
-// DELETE post
-export const deletePost = (id) => API.delete(`/posts/${id}`);

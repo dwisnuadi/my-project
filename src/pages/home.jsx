@@ -1,11 +1,22 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { getCourses } from "../services/api";
+import { Link } from "react-router-dom";
 
+export default function Home() {
+  const [courses, setCourses] = useState([]);
 
-function Home() {
+  useEffect(() => {
+    axios.get("http://localhost:5000/course")
+      .then((res) => setCourses(res.data));
+  }, []);
 
-
-
-
+  useEffect(() => {
+    getCourses()
+      .then((res) => setCourses(res.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div className="font-sans bg-orchid-white-50">
@@ -22,6 +33,10 @@ function Home() {
             <span className="text-sm font-medium text-gray-600 cursor-pointer">
               Kategori
             </span>
+            <Link to="/admin">
+            <button>admin</button>
+            </Link>
+          
             <img
               src="/images/Avatar.png"
               className="h-8 w-8 rounded-full"
@@ -61,67 +76,19 @@ function Home() {
       </section>
 
       {/* ================= COURSE SECTION ================= */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <h2 className="text-4xl font-bold">
-          Koleksi Video Pembelajaran Unggulan
-        </h2>
-        <p className="text-gray-600 mt-2">
-          Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!
-        </p>
-        <div className="mt-5">
-      <a href="semua kelas"className=" mr-13"> semua kelas</a>
-      <a href="pemasaran"className="mr-13"> pemasaran </a>
-      <a href="design"className="mr-13"> desain</a>
-      <a href="pengembangan-dir"className="mr-13"> pengembangan diri</a>
-      <a href="bisnis"className="mr-13"> bisnis</a>
-
-    </div>
-
-<div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {[...Array(9)].map((_, i) => (
-    <div key={i} className="overflow-hidden rounded-xl border shadow">
-      <img
-        src={courseImages[i % courseImages.length]}
-        className="h-56 w-full object-cover"
-      />
-
-      <div className="p-4 flex flex-col justify-between h-48">
-        <div>
-          <h3 className="text-sm font-bold">
-            Course {i + 1}
-          </h3>
-
-          <p className="mt-2 text-xs text-gray-600">
-            Belajar skill profesional dari mentor terbaik
-          </p>
-        </div>
-
-        <div>
-          <div className="flex items-center gap-2 mt-4">
-            <img
-              src={instructorImages[i % instructorImages.length]}
-              className="h-8 w-8 rounded-full"
-            />
-            <div className="text-xs">
-              <strong>Mentor Pro</strong>
-              <p className="text-gray-500">Senior Trainer</p>
-            </div>
-          </div>
-
-          <div className="mt-3 flex justify-between text-xs">
-            <span>⭐⭐⭐☆☆ 3.5 (86)</span>
-            <span className="font-bold text-green-500 text-2xl">
-              Rp 300K
-            </span>
-          </div>
-        </div>
+      <div className="grid grid-cols-3 gap-6">
+      {courses.length > 0 ? (
+          courses.map((course) => (
+        <div key={course.id} className="border p-4">
+        <img src={course.image} alt={course.title} />
+        <h3>{course.title}</h3>
+        <p>{course.description}</p>
       </div>
-    </div>
-  ))}
-</div>
-  
-      </section>
-
+        ))
+         ) : (
+         <p>Loading courses...</p>
+           )}
+      </div>
       {/* ================= HERO BOTTOM ================= */}
       <section
         className="relative max-w-7xl mx-auto bg-center bg-cover mb-10 "
@@ -219,29 +186,7 @@ function Home() {
   );
 }
 
-const courseImages = [
-  "/images/178e67438c9e6fbe4978be3387d7b68741986339.jpg",
-  "/images/63d7769c286b295990b96d6fed1cbf0131ac467a.jpg",
-  "/images/ed59de3f4c716638c4b0b880f4d4e94e6a7e2a3d.jpg",
-  "/images/ae7645a26e5b3d3d079b37265508dc0743a960b8.jpg",
-  "/images/6eae93f1cdfe637146f9e9b161d1e323f840e75d.jpg",
-  "/images/5c5549fc96f5efd8db74e577b725111e64ca783e.jpg",
-  "/images/5dc102b762324a31d3cdb502fcee6d64a11e0f77.jpg",
-  "/images/eadaad280a0629a1c47135c68ec78f0de1f1a528.jpg",
-  "/images/a645a5cd223894f5f60f082c31a25b5a29935827.jpg"
-];
 
-const instructorImages = [
-  "/images/e0f45fcb04a5be3e74157ed546f35c0cb9e966aa.png",
-  "/images/8740dd055875e91705f2cca8f6549626572381d3.png",
-  "/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png",
-  "/images/378c821c92a7971a3e27aadb5597638328624b71.png",
-  "/images/410450f501af98c2b8ab2f802cea55edadedd4ff.png",
-  "/images/e630fa3d54a1d5ec68fbf4600cc71ac4a0263b3a.png",
-  "/images/b48ec52a2da30013772100319ae07d2b5b138174.png",
-  "/images/d39d214beca22b05813832f2e3cfd0970a181715.png",
-  "/images/1b64f9265900cfe4b87ab0735a1921491a4f432e.png"
-];
 const socialMediaImages =
 [   "/images/ucide icon.png",
     "/images/Vector.png",
@@ -250,4 +195,4 @@ const socialMediaImages =
 
 ];
 
-export default Home;  
+
