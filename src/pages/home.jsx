@@ -1,22 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { getCourses } from "../services/api";
 import { Link } from "react-router-dom";
 
-export default function Home() {
-  const [courses, setCourses] = useState([]);
+  export default function Home() {
+    const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/course")
-      .then((res) => setCourses(res.data));
-  }, []);
+    useEffect(() => {
+      axios.get("http://localhost:5000/course")
+        .then((res) => {
+          console.log("DATA API", res.data);
+          setCourses(res.data) })
 
-  useEffect(() => {
-    getCourses()
-      .then((res) => setCourses(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+        .catch((err) => console.error(err));
+    }, []);
 
   return (
     <div className="font-sans bg-orchid-white-50">
@@ -76,19 +73,36 @@ export default function Home() {
       </section>
 
       {/* ================= COURSE SECTION ================= */}
-      <div className="grid grid-cols-3 gap-6">
-      {courses.length > 0 ? (
-          courses.map((course) => (
-        <div key={course.id} className="border p-4">
-        <img src={course.image} alt={course.title} />
-        <h3>{course.title}</h3>
-        <p>{course.description}</p>
+      <div className="grid grid-cols-2 gap-6 p-10">
+  {courses
+    .filter((course) => course.title)
+    .map((course) => (
+      <div key={course.id} className="bg-white rounded-xl shadow p-4">
+
+        <img
+          src={
+            typeof course.image === "string" && course.image !== ""
+              ? course.image
+              : "/images/default.jpg"
+          }
+          className="w-full h-40 object-cover rounded-lg"
+        />
+
+        <h2 className="font-bold text-lg mt-3">
+          {course.title}
+        </h2>
+
+        <p className="text-gray-500">
+          {course.author || "Admin"}
+        </p>
+
+        <p className="text-green-500 font-bold text-xl">
+          Rp {course.price || 0}
+        </p>
+
       </div>
-        ))
-         ) : (
-         <p>Loading courses...</p>
-           )}
-      </div>
+      ))}
+    </div>
       {/* ================= HERO BOTTOM ================= */}
       <section
         className="relative max-w-7xl mx-auto bg-center bg-cover mb-10 "

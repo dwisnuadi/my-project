@@ -1,21 +1,25 @@
 {
   "course": [
+
     {
-      "id": "1",
-      "title": "React Basic",
-      "author": "Admin"
+      "id": "da1d",
+      "title": "good ",
+      "description": "goood ",
+      "image": "",
+      "price": "",
+      "tutor": "dadsa",
+      "experience": "adasda",
+      "tutorImage": ""
     },
     {
-      "id": "2",
-      "title": "JavaScript Fundamental",
-      "author": "Admin"
-    },
-    {
-      "id": "1338",
-      "title": "dawdawds",
-      "description": "sdadasdas",
-      "image": "dadsad",
-      "price": "2020000"
+      "id": "e796",
+      "title": "belajar bahasa inggris",
+      "description": "ayo pelajari bahasa inggris dengan baik",
+      "image": {},
+      "price": "2000000",
+      "tutor": "dwisnu adi ",
+      "experience": "guru bahasa inggris ",
+      "tutorImage": {}
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
