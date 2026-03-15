@@ -73,22 +73,15 @@
     {
       "title": "Big 4 Auditoe Financial Analyst",
       "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
-      "image": "http://localhost:5000/c8.jpg",
-      "price": "300000",
-      "tutor": "Jenna Ortega",
-      "experience": "Senior Accountant di Gojek ",
-      "tutorImage": "http://localhost:5000/p9.png",
-      "id": "5a16"
-    },
-    {
-      "title": "Big 4 Auditoe Financial Analyst",
-      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
       "image": "http://localhost:5000/p6.jpg",
       "price": "300000",
       "tutor": "Jenna Ortega",
       "experience": "Senior Accountant di Gojek ",
       "tutorImage": "http://localhost:5000/p2.png",
       "id": "ffae"
+    },
+    {
+      "id": "4db8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
