@@ -10,11 +10,12 @@ import { Link } from "react-router-dom";
       axios.get("http://localhost:5000/course")
         .then((res) => {
           console.log("DATA API", res.data);
-          setCourses(res.data) })
+          setCourses(res.data) }) 
 
         .catch((err) => console.error(err));
     }, []);
 
+    
   return (
     <div className="font-sans bg-orchid-white-50">
       {/* ================= NAVBAR ================= */}
@@ -46,7 +47,7 @@ import { Link } from "react-router-dom";
       <section
         className="relative max-w-6xl mx-auto bg-center bg-cover mt-16 filter brightness-100 "
         style={{
-          backgroundImage: "url('/images/5.jpg')",
+          backgroundImage: "url('/images/c5.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/60" />
@@ -73,41 +74,74 @@ import { Link } from "react-router-dom";
       </section>
 
       {/* ================= COURSE SECTION ================= */}
-      <div className="grid grid-cols-2 gap-6 p-10">
+      <div className="min-h-screen grid grid-cols-3 items-center gap-6 p-10 pr-50 pl-50">
   {courses
     .filter((course) => course.title)
     .map((course) => (
-      <div key={course.id} className="bg-white rounded-xl shadow p-4">
+      <div
+        key={course.id}
+        className="bg-white rounded-2xl shadow-md w-80 overflow-hidden border hover:shadow-xl transition"
+      >
 
-        <img
-          src={
-            typeof course.image === "string" && course.image !== ""
-              ? course.image
-              : "/images/default.jpg"
-          }
-          className="w-full h-40 object-cover rounded-lg"
-        />
+      <img
+        src={course.image || "/images/no-image.png"}
+        alt={course.title}
+        className="w-full h-44 object-cover"
+      />
 
-        <h2 className="font-bold text-lg mt-3">
+      <div className="p-5 flex flex-col gap-3">
+
+        <h2 className="text-lg font-semibold text-gray-800">
           {course.title}
         </h2>
 
-        <p className="text-gray-500">
-          {course.author || "Admin"}
+        <p className="text-gray-500 text-sm line-clamp-2">
+          {course.description}
         </p>
 
-        <p className="text-green-500 font-bold text-xl">
-          Rp {course.price || 0}
-        </p>
+        <div className="flex items-center gap-3 mt-2">
+
+          <img
+            src={course.tutorImage || "/images/avatar.png"}
+            alt={course.tutor}
+            className="w-10 h-10 rounded-lg object-cover"
+          />
+
+          <div>
+            <p className="font-medium text-gray-800">{course.tutor}</p>
+            <p className="text-sm text-gray-500">{course.experience}</p>
+          </div>
+
+        </div>
+
+        <div className="flex items-center justify-between mt-3">
+
+          <div className="flex items-center gap-1 text-yellow-400">
+            ⭐ ⭐ ⭐ ⭐ ☆
+            <span className="text-gray-500 text-sm ml-1">
+              3.5 (86)
+            </span>
+          </div>
+
+          <p className="text-green-500 font-bold text-lg">
+            {new Intl.NumberFormat("id-ID",{
+              style:"currency",
+              currency:"IDR"
+            }).format(Number(course.price || 0))}
+          </p>
+
+        </div>
 
       </div>
-      ))}
     </div>
+  ))}
+</div>
+
       {/* ================= HERO BOTTOM ================= */}
       <section
         className="relative max-w-7xl mx-auto bg-center bg-cover mb-10 "
         style={{
-          backgroundImage: "url('/images/6.jpg')",
+          backgroundImage: "url('/images/c4.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/60" />

@@ -1,25 +1,94 @@
 {
   "course": [
-
     {
-      "id": "da1d",
-      "title": "good ",
-      "description": "goood ",
-      "image": "",
-      "price": "",
-      "tutor": "dadsa",
-      "experience": "adasda",
-      "tutorImage": ""
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c7.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p10.png",
+      "id": "07e5"
     },
     {
-      "id": "e796",
-      "title": "belajar bahasa inggris",
-      "description": "ayo pelajari bahasa inggris dengan baik",
-      "image": {},
-      "price": "2000000",
-      "tutor": "dwisnu adi ",
-      "experience": "guru bahasa inggris ",
-      "tutorImage": {}
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c6.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p4.png",
+      "id": "aa34"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c9.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p2.png",
+      "id": "8fb5"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/p7.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p11.png",
+      "id": "2997"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c5.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p5.png",
+      "id": "6d82"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c2.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p3.png",
+      "id": "69d6"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c3.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p8.png",
+      "id": "a5bd"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/c8.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p9.png",
+      "id": "5a16"
+    },
+    {
+      "title": "Big 4 Auditoe Financial Analyst",
+      "description": "mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan....",
+      "image": "http://localhost:5000/p6.jpg",
+      "price": "300000",
+      "tutor": "Jenna Ortega",
+      "experience": "Senior Accountant di Gojek ",
+      "tutorImage": "http://localhost:5000/p2.png",
+      "id": "ffae"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
