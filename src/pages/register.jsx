@@ -1,33 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
-const baseURL = "https://697f08fad1548030ab64fff0.mockapi.io/register";
-
-export function PostApp (){
-  const [post , setPost] = useState(null);
-
-  useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setPost(response.data);
-    }).catch(error => {
-      console.error("There was an error!", error);
-    });
-  }, []);
-  if (!post) return <p>Loading...</p>;
-  return (
-    <div>
-      <h1>Posts</h1>
-      <ul>
-        {post.map((post) => (
-          <li key={post.id}>
-            {post.title}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export default function Register() {
   const navigate = useNavigate();
@@ -117,22 +90,13 @@ const validateForm = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  console.log ('tombol register diklik ');
-
   if (!validateForm()) return;
 
-  console.log ('DATA FORM:', formData);
-
-  const exist = user.find((u) => u.email === formData.email);
+ const exist = user.find((u) => u.email === formData.email);
   if (exist) {
     setErrors({ email: "Email sudah terpakai" });
     return;
   }
-
-  try {
-    const response= await axios.post(baseURL, FormData);
-
-    console.log ("API response;", response.data);
 
     const newUser = {
       id: Date.now(),
@@ -148,10 +112,7 @@ const handleSubmit = async (e) => {
     alert("Selamat Bergabung!");
     navigate("/");
 
-  } catch (error) {
-    console.error("Register API Error:", error);
-    alert("Gagal daftar ke server");
-  }
+
 };
 
 

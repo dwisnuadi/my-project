@@ -1,0 +1,21 @@
+{
+  "name": "tugas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "cros": "^1.1.0",
+    "knex": "^3.1.0",
+    "multer": "^2.1.1"
+  }
+}
