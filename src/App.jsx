@@ -7,7 +7,6 @@ import AddCourse from "./pages/admin";
 
 export default function App() {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -15,6 +14,6 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/admin" element={<AddCourse />} />
       </Routes>
-    </BrowserRouter>
+
   );
 }

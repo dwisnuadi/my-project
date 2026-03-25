@@ -1,76 +1,125 @@
 import express from "express";
-import multer from "multer";
 import cors from "cors";
+import dotenv from "dotenv";
+import multer from "multer";
+import mysql from "mysql2";
+import authRoutes from "./routes/authRoutes.js"
+
+dotenv.config();
 
 const app = express();
 
+// ================= DB =================
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "course_db",
+});
+
+// ================= MIDDLEWARE =================
 app.use(cors());
 app.use(express.json());
-app.use("/back end/foto", express.static("public/images"));
+app.use("/uploads", express.static("uploads"));
+app.use("/api/auth", authRoutes);
 
-const storage = multer.diskStorage({
-  destination : function (req, file, cb) {
-    cb(null, "/foto");
-  },
-  filename : function (req, file, cb) {
-    cb(null, Date.now() +"_" + file.originalname);
-  }
+// ================= LOGGER =================
+app.use((req, res, next) => {
+  console.log("REQ:", req.method, req.url);
+  next();
 });
 
-const upload = multer({ storage: storage });
+// ================= MULTER =================
+const upload = multer({ dest: "uploads/" });
 
-let courses = [];
+// ================= ROUTE =================
+app.get("/api/course", (req, res) => {
+  db.query("SELECT * FROM course", (err, result) => {
+    if (err) {
+      console.log("DB ERROR:", err);
+      return res.status(500).json(err);
+    }
 
-app.post("/course", upload.single("image"), (req, res) => {
-
-const newCourse = {
-id: Date.now(),
-title: req.body.title,
-description: req.body.description,
-price: req.body.price,
-tutor: req.body.tutor,
-experience: req.body.experience,
-tutorImage: req.body.tutorImage,
-image: req.file.filename
-};
-
-courses.push(newCourse);
-
-res.json(newCourse);
-});
-
-app.get("/course", (req,res)=>{
-res.json(courses);
-});
-
-app.listen(5000, ()=>{
-console.log("Server running on port 5000");
-});
-
-app.get ("/course", (req, res) => {
-  res.json ({
-    massage : "list course",
-    data : []
+    res.json(result);
   });
 });
 
-app.post("/course", (req, res) => {
-  
-  if (!req.body) {
-    return req.status(400).json({
-      massege: "body request kosong"
-    });
+app.post(
+  "/api/course",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "tutorImage", maxCount: 1 }
+  ]),
+  (req, res) => {
+    try {
+      console.log("BODY:", req.body);
+      console.log("FILES:", req.files);
+
+      const { title, description, price, tutor } = req.body;
+
+      if (!req.files || !req.files.image) {
+        return res.status(400).json("Image wajib diupload");
+      }
+
+      const image = req.files["image"][0].filename;
+
+      db.query(
+        "INSERT INTO course (title, description, image, price, tutor) VALUES (?, ?, ?, ?, ?)",
+        [title, description, image, price, tutor],
+        (err) => {
+          if (err) {
+            console.log("DB ERROR:", err);
+            return res.status(500).json(err);
+          }
+
+          res.json("Course berhasil ditambahkan");
+        }
+      );
+    } catch (err) {
+      console.log("SERVER ERROR:", err);
+      res.status(500).json(err);
+    }
   }
-  const { title, description, image, price } = req.body;
+);
+app.put("/api/course/:id", (req, res) => {
+  const { id } = req.params;
+  const { title, description, price, tutor } = req.body;
 
-  console.log(req.body);
+  db.query(
+    "UPDATE course SET title=?, description=?, price=?, tutor=? WHERE id=?",
+    [title, description, price, tutor, id],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json(err);
+      }
 
-  res.json({
-    message: "Course berhasil ditambahkan",
-    data: { title, description, image, price }
+      res.json("Course berhasil diupdate");
+    }
+  );
+});
+
+app.delete("/api/course/:id", (req, res) => {
+  const { id } = req.params;
+
+  db.query("DELETE FROM course WHERE id=?", [id], (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+
+    res.json("Course berhasil dihapus");
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// login dan register 
+
+
+
+
+// ================= RUN SERVER =================
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

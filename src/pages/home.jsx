@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-      axios.get("http://localhost:5000/course")
+      axios.get("http://localhost:5000/api/course")
         .then((res) => {
           console.log("DATA API", res.data);
           setCourses(res.data) }) 
@@ -84,7 +84,11 @@ import { Link } from "react-router-dom";
       >
 
       <img
-        src={course.image || "/images/no-image.png"}
+        src={
+        course.image
+        ? `http://localhost:5000/uploads/${course.image}`
+        : "/images/no-image.png"
+          }
         alt={course.title}
         className="w-full h-44 object-cover"
       />
@@ -102,7 +106,11 @@ import { Link } from "react-router-dom";
         <div className="flex items-center gap-3 mt-2">
 
           <img
-            src={course.tutorImage || "/images/avatar.png"}
+            src={
+            course.tutorImage
+            ? `http://localhost:5000/uploads/${course.tutorImage}`
+            : "/images/no-image.png"
+            }
             alt={course.tutor}
             className="w-10 h-10 rounded-lg object-cover"
           />

@@ -17,9 +17,11 @@
     const [experience,setExperience] = useState("")
     const [tutorImage,setTutorImage] = useState("")
 
+    const BASE_URL = "http://localhost:5000/api";
+
     // GET COURSES
     const fetchCourses = async () => {
-    const res = await axios.get("http://localhost:5000/course")
+    const res = await axios.get(`${BASE_URL}/course`)
     setCourses(res.data)
     }
 
@@ -30,64 +32,62 @@
     },[])
 
     // ADD COURSE
-    const addCourse = async (e)=>{
-    e.preventDefault()
+   const addCourse = async (e) => {
+  e.preventDefault();
 
-    const newCourse = {
-        title,
-        description,
-        image,
-        price,
-        tutor,
-        experience,
-        tutorImage
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("price", price);
+  formData.append("tutor", tutor);
+  formData.append("experience", experience);
+  formData.append("image", image);
+  formData.append("tutorImage", tutorImage);
+
+  // image harus file
+  formData.append("image", image);
+
+  await axios.post(`${BASE_URL}/course`, formData, {
+  });
+
+  alert("Course berhasil ditambahkan");
+  clearForm();
+  fetchCourses();
+};
+
+const updateCourse = async () => {
+    if (!id) {
+        return;
+    }
+  try {
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("tutor", tutor);
+    formData.append("experience", experience);
+    formData.append("image", image);
+    formData.append("tutorImage", tutorImage);
+
+    // ✅ hanya kirim image kalau user upload baru
+    if (image instanceof File) {
+      formData.append("image", image);
     }
 
-    await axios.post("http://localhost:5000/course", newCourse)
+    await axios.put(`${BASE_URL}/course/${id}`, formData);
 
-    alert("Course berhasil ditambahkan")
-
-    clearForm()
-    fetchCourses()
-    }
-
-    // EDIT COURSE
-    const editCourse = (course)=>{
-    setId(course.id)
-    setTitle(course.title)
-    setDescription(course.description)
-    setImage(course.image)
-    setPrice(course.price)
-    setTutor(course.tutor)
-    setExperience(course.experience)
-    setTutorImage(course.tutorImage)
-    }
-
-    // UPDATE COURSE
-    const updateCourse = async ()=>{
-
-    const updateData = {
-        title,
-        description,
-        image,
-        price,
-        tutor,
-        experience,
-        tutorImage
-    }
-
-    await axios.put(`http://localhost:5000/course/${id}`, updateData)
-
-    alert("Course berhasil diupdate")
-
-    clearForm()
-    fetchCourses()
-    }
+    alert("Course berhasil diupdate");
+    clearForm();
+    fetchCourses();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
     // DELETE COURSE
     const deleteCourse = async(id)=>{
-    await axios.delete(`http://localhost:5000/course/${id}`)
-
+    await axios.delete(`${BASE_URL}/course/${id}`)
     alert("Course berhasil dihapus")
 
     fetchCourses()
@@ -169,10 +169,8 @@
     />
 
     <input
-    type="text"
-    placeholder="Image URL"
-    value={image}
-    onChange={(e)=>setImage(e.target.value)}
+    type="file"
+    onChange={(e)=>setImage(e.target.files[0])}
     className="border rounded-lg p-3"
     />
 
@@ -207,10 +205,8 @@
     />
 
     <input
-    type="text"
-    placeholder="Tutor Image URL"
-    value={tutorImage}
-    onChange={(e)=>setTutorImage(e.target.value)}
+    type="file"
+    onChange={(e)=>setTutorImage(e.target.files[0])}
     className="border rounded-lg p-3"
     />
 
@@ -295,7 +291,7 @@
     <td className="flex gap-2 py-2">
 
     <button
-    onClick={()=>editCourse(course)}
+    onClick={()=>updateCourse(course)}
     className="bg-yellow-400 px-3 py-1 rounded"
     >
     Edit

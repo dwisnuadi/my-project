@@ -79,9 +79,6 @@
       "experience": "Senior Accountant di Gojek ",
       "tutorImage": "http://localhost:5000/p2.png",
       "id": "ffae"
-    },
-    {
-      "id": "4db8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
