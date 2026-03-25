@@ -1,48 +1,80 @@
-const express = import ("express");
-const routers = express.Router();
-const knex =  import ("./config/db.js");
+import express from "express";
+import knex from "../config/db.js";
+import { register, login } from "../controllers/authcontroller.js";
+import multer from "multer";
+
+
+const router = express.Router();
+const upload = multer({ dest: "uploads/" });
+
+// ================= AUTH =================
+router.post("/register", register);
+router.post("/login", login);
+
+// ================= COURSE =================
 
 // GET COURSE
-routers.get("/course", async (req, res) => {
-  const course = await knex("course");
-  res.json(course);
+router.get("/course", async (req, res) => {
+  res.send("auth oke");
+  try {
+    const course = await knex("course");
+    res.json(course);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // ADD COURSE
-routers.post("/course", async (req, res) => {
-  const { title, description, image, price } = req.body;
+router.post("/course", upload.single("image"), async (req, res) => {
+  try {
+    console.log("BODY:", req.body);
+    const { title, description, price } = req.body;
 
-  await knex("course").insert({
-    title,
-    description,
-    image,
-    price,
-  });
+    const image = req.file ? req.file.filename : null;
 
-  res.json({ message: "course berhasil ditambahkan" });
+    await knex("course").insert({
+      title,
+      description,
+      image,
+      price,
+    });
+
+    res.json({ message: "course berhasil ditambahkan" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 // UPDATE COURSE
-routers.put("/course/:id", async (req, res) => {
-  const { id } = req.params;
-  const { title, description, image, price } = req.body;
+router.put("/course/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, image, price } = req.body;
 
-  await knex("course")
-    .where({ id })
-    .update({ title, description, image, price });
+    await knex("course")
+      .where({ id })
+      .update({ title, description, image, price });
 
-  res.json({ message: "course berhasil di update" });
+    res.json({ message: "course berhasil di update" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // DELETE COURSE
-routers.delete("/course/:id", async (req, res) => {
-  const { id } = req.params;
+router.delete("/course/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  await knex("course")
-    .where({ id })
-    .del();
+    await knex("course")
+      .where({ id })
+      .del();
 
-  res.json({ message: "course telah di hapus" });
+    res.json({ message: "course telah di hapus" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-module.express = routers;   
+export default router;
