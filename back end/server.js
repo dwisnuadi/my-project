@@ -10,11 +10,23 @@ dotenv.config();
 const app = express();
 
 // ================= DB =================
-const db = mysql.createConnection({
-  host: "localhost",
+const db = mysql.createPool({
+  host: "127.0.0.1",
   user: "root",
   password: "",
   database: "course_db",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+db.getConnection((err, connection) => {
+  if (err) {
+    console.error("Gagal koneksi ke database:", err);
+  } else {
+    console.log("Berhasil connect ke MySQL");
+    connection.release();
+  }
 });
 
 // ================= MIDDLEWARE =================
@@ -62,10 +74,11 @@ app.post(
       }
 
       const image = req.files["image"][0].filename;
+      const image_tutor = req.files["tutorImage"]?.[0]?.filename;
 
       db.query(
         "INSERT INTO course (title, description, image, price, tutor) VALUES (?, ?, ?, ?, ?)",
-        [title, description, image, price, tutor],
+        [title, description, image, price, tutor, image_tutor],
         (err) => {
           if (err) {
             console.log("DB ERROR:", err);

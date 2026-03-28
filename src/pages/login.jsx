@@ -20,7 +20,7 @@ export default function Login() {
         password,
       });
 
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("token", res.data.token);
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.message || "Login gagal");

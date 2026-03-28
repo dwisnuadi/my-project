@@ -107,9 +107,9 @@ import { Link } from "react-router-dom";
 
           <img
             src={
-            course.tutorImage
-            ? `http://localhost:5000/uploads/${course.tutorImage}`
-            : "/images/no-image.png"
+            course.image_tutor
+            ? `http://localhost:5000/uploads/${course.image_tutor}`
+            : "https://ui-avatars.com/api/?name=" + course.image_tutor
             }
             alt={course.tutor}
             className="w-10 h-10 rounded-lg object-cover"

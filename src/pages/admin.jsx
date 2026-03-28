@@ -18,6 +18,8 @@
     const [tutorImage,setTutorImage] = useState("")
 
     const BASE_URL = "http://localhost:5000/api";
+    
+
 
     // GET COURSES
     const fetchCourses = async () => {
@@ -32,47 +34,43 @@
     },[])
 
     // ADD COURSE
-   const addCourse = async (e) => {
+ const addCourse = async (e) => {
   e.preventDefault();
 
   const formData = new FormData();
-  formData.append("title", title);
-  formData.append("description", description);
-  formData.append("price", price);
-  formData.append("tutor", tutor);
-  formData.append("experience", experience);
-  formData.append("image", image);
-  formData.append("tutorImage", tutorImage);
+formData.append("title", title);
+formData.append("description", description);
+formData.append("price", price);
+formData.append("tutor", tutor);
+formData.append("image", image); 
+formData.append("tutorImage", tutorImage); 
 
-  // image harus file
-  formData.append("image", image);
-
-  await axios.post(`${BASE_URL}/course`, formData, {
-  });
+await axios.post("http://localhost:5000/api/course", formData);
 
   alert("Course berhasil ditambahkan");
   clearForm();
   fetchCourses();
 };
 
+// update
+
 const updateCourse = async () => {
-    if (!id) {
-        return;
-    }
+  if (!id) return;
+
   try {
     const formData = new FormData();
-
     formData.append("title", title);
     formData.append("description", description);
     formData.append("price", price);
     formData.append("tutor", tutor);
-    formData.append("experience", experience);
-    formData.append("image", image);
-    formData.append("tutorImage", tutorImage);
+    formData.append("experience", experience); 
 
-    // ✅ hanya kirim image kalau user upload baru
     if (image instanceof File) {
       formData.append("image", image);
+    }
+
+    if (tutorImage instanceof File) {
+      formData.append("tutorImage", tutorImage);
     }
 
     await axios.put(`${BASE_URL}/course/${id}`, formData);
@@ -84,6 +82,7 @@ const updateCourse = async () => {
     console.log(err);
   }
 };
+
 
     // DELETE COURSE
     const deleteCourse = async(id)=>{
@@ -103,11 +102,17 @@ const updateCourse = async () => {
     setTutor("")
     setExperience("")
     setTutorImage("")
-    }
+    };
 
-    return (
-        // title 
+    const editCourse = (course) => {
+  setId(course.id);
+  setTitle(course.title);
+  setDescription(course.description);
+  setPrice(course.price);
+  setTutor(course.tutor);
+  setExperience(course.experience); };
 
+  return (
     <div className="min-h-screen bg-gray-50">
 
     <header className="w-full bg-white shadow">
@@ -234,10 +239,10 @@ const updateCourse = async () => {
 
     <button
     type="button"
-    onClick={updateCourse}
+    onClick={id ? updateCourse : addCourse}
     className="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg"
     >
-    Update Course
+     {id ? "Update Course" : "Tambah Course"}
     </button>
 
     <button
@@ -291,7 +296,7 @@ const updateCourse = async () => {
     <td className="flex gap-2 py-2">
 
     <button
-    onClick={()=>updateCourse(course)}
+    onClick={() => editCourse(course)}
     className="bg-yellow-400 px-3 py-1 rounded"
     >
     Edit
