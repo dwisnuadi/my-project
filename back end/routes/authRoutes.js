@@ -52,7 +52,7 @@ router.post("/login", (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Password salah" });
 
-    // 🔥 BUAT TOKEN
+
     const token = JWT.sign(
       { id: user.id, username: user.username },
       process.env.JWT_SECRET,

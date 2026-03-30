@@ -11,13 +11,14 @@ const app = express();
 
 // ================= DB =================
 const db = mysql.createPool({
-  host: "127.0.0.1",
+  host: "localhost",
   user: "root",
   password: "",
   database: "course_db",
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  connectTimeout : 10000
 });
 
 db.getConnection((err, connection) => {
@@ -46,12 +47,14 @@ const upload = multer({ dest: "uploads/" });
 
 // ================= ROUTE =================
 app.get("/api/course", (req, res) => {
+  console.log("API response")
+
   db.query("SELECT * FROM course", (err, result) => {
     if (err) {
       console.log("DB ERROR:", err);
       return res.status(500).json(err);
     }
-
+    console.log("kirim response")
     res.json(result);
   });
 });
@@ -67,7 +70,7 @@ app.post(
       console.log("BODY:", req.body);
       console.log("FILES:", req.files);
 
-      const { title, description, price, tutor } = req.body;
+      const { title, description, price, tutor, tutor_experiance } = req.body; 
 
       if (!req.files || !req.files.image) {
         return res.status(400).json("Image wajib diupload");
@@ -77,8 +80,8 @@ app.post(
       const image_tutor = req.files["tutorImage"]?.[0]?.filename;
 
       db.query(
-        "INSERT INTO course (title, description, image, price, tutor) VALUES (?, ?, ?, ?, ?)",
-        [title, description, image, price, tutor, image_tutor],
+  "INSERT INTO course (title, description, image, price, tutor, image_tutor, tutor_experiance) VALUES (?, ?, ?, ?, ?, ?, ?)",
+  [title, description, image, price, tutor, image_tutor, tutor_experiance],
         (err) => {
           if (err) {
             console.log("DB ERROR:", err);

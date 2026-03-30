@@ -2,6 +2,7 @@ import db from "../config/db.js";
 import bcrypt from "bcrypt";
 import { findUserByEmail } from "../models/userModel.js";
 
+
 // REGISTER
 export const register = async (req, res) => {
    console.log("REQ BODY:", req.body);
