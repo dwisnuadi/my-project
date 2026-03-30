@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom"; // ✅ tambah ini
 import App from "./App.jsx";
 import { store } from "./redux/store";
 import "./index.css";
@@ -8,7 +9,9 @@ import "./index.css";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter> {/* ✅ wrapper wajib */}
+        <App />
+      </BrowserRouter>
     </Provider>
   </StrictMode>
 );

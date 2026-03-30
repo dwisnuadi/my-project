@@ -1,159 +1,89 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState} from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import React from "react";
 
-const baseURL = "https://697f08fad1548030ab64fff0.mockapi.io/register";
-
-export function PostApp (){
-  const [post , setPost] = useState(null);
-
-  useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setPost(response.data);
-    }).catch(error => {
-      console.error("There was an error!", error);
-    });
-  }, []);
-  if (!post) return <p>Loading...</p>;
-  return (
-    <div>
-      <h1>Posts</h1>
-      <ul>
-        {post.map((post) => (
-          <li key={post.id}>
-            {post.title}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export default function Register() {
   const navigate = useNavigate();
 
-//  json array object
+  const [formData, setFormData] = useState({  
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-const [user, setUser] = useState(() => {
-  const data = JSON.parse(localStorage.getItem("user"));
-  return Array.isArray(data) ? data : [];
-  
-});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState({});
 
-// Form state
-const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  phone: "",
-  password: "",
-  confirmPassword: "",
-});
-
-// Password visibility state
-const [showPassword, setShowPassword] = useState(false);
-const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-// Validation errors state
-const [errors, setErrors] = useState({});
-
-// Handle input changes
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData(prev => ({
-    ...prev,
-    [name]: value
-  }));
-  // Clear error when user starts typing
-  if (errors[name]) {
-    setErrors(prev => ({
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: ""
+      [name]: value,
     }));
-  }
-};
 
-// Validation functions
-const validateForm = () => {
-  const newErrors = {};
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
 
-  // Name validation
-  if (!formData.name.trim()) {
-    newErrors.name = "Nama lengkap wajib diisi";
-  }
+  const validateForm = () => {
+    const newErrors = {};
 
-  // Email validation
-  if (!formData.email.trim()) {
-    newErrors.email = "Email wajib diisi";
-  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    newErrors.email = "Format email tidak valid";
-  }
+    if (!formData.name.trim()) newErrors.name = "Nama lengkap wajib diisi";
 
-  // Phone validation
-  if (!formData.phone.trim()) {
-    newErrors.phone = "Nomor HP wajib diisi";
-  } else if (!/^[0-9]{10,13}$/.test(formData.phone.replace(/\D/g, ""))) {
-    newErrors.phone = "Nomor HP tidak valid (10-13 digit)";
-  }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email wajib diisi";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Format email tidak valid";
+    }
 
-  // Password validation
-  if (!formData.password) {
-    newErrors.password = "Kata sandi wajib diisi";
-  } else if (formData.password.length < 8) {
-    newErrors.password = "Kata sandi minimal 8 karakter";
-  }
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Nomor HP wajib diisi";
+    }
 
-  // Confirm password validation
-  if (!formData.confirmPassword) {
-    newErrors.confirmPassword = "Konfirmasi kata sandi wajib diisi";
-  } else if (formData.password !== formData.confirmPassword) {
-    newErrors.confirmPassword = "Kata sandi tidak cocok";
-  }
+    if (!formData.password) {
+      newErrors.password = "Kata sandi wajib diisi";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Minimal 8 karakter";
+    }
 
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Kata sandi tidak cocok";
+    }
 
-// Handle form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  console.log ('tombol register diklik ');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  console.log ('DATA FORM:', formData);
+    try {
+      await axios.post("http://localhost:5000/api/auth/register", {
+        full_name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
 
-  const exist = user.find((u) => u.email === formData.email);
-  if (exist) {
-    setErrors({ email: "Email sudah terpakai" });
-    return;
-  }
-
-  try {
-    const response= await axios.post(baseURL, FormData);
-
-    console.log ("API response;", response.data);
-
-    const newUser = {
-      id: Date.now(),
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    };
-
-    const updatedUsers = [...user, newUser];
-    setUser(updatedUsers);
-    localStorage.setItem("user", JSON.stringify(updatedUsers));
-
-    alert("Selamat Bergabung!");
-    navigate("/");
-
-  } catch (error) {
-    console.error("Register API Error:", error);
-    alert("Gagal daftar ke server");
-  }
-};
-
+      alert("Register berhasil");
+      navigate("/");
+    } catch (err) {
+      setErrors({
+        email: err.response?.data?.message || "Register gagal",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-orchid-white-50">

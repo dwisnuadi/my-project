@@ -1,56 +1,31 @@
-  import { Link, useNavigate } from "react-router-dom";
-  import { useState, useEffect } from "react";
-  import { useDispatch, useSelector } from "react-redux";
-  import { fetchData } from "../redux/authReducer";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import React from "react";
 
-  export default function Login() {
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
+  const [error, setError] = useState("");
 
-    const dispatch = useDispatch();
-    const {data: users, status} = useSelector((state)=> state.auth);
+  const navigate = useNavigate();
 
+  const handlelogin = async (e) => {
+    e.preventDefault();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPass, setShowPass] = useState(false);
-    const [error, setError] = useState("");
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
 
-    
-    const navigate = useNavigate();
-
-
-    useEffect(() => {
-      dispatch(fetchData());  
-    }, [dispatch]);
-
-    useEffect(() => {
-      console.log("redux users", users);
-    }, [users]);
-
-    const handlelogin = (e) => {
-      e.preventDefault();
-
-      console.log ("redux users", users); 
-
-      if (!Array.isArray(users)) {
-        setError("Data pengguna tidak valid");
-        return;
-      }
-
-      const found = users.find(
-        (u) => u.email === email && u.password === password
-      );
-
-      if (found) {
-        localStorage.setItem("user", JSON.stringify(found));
-        navigate("/home");
-      } else {
-        setError("Email atau password salah");
-      }
-    };
-
-    if (status === "loading") return <p className="text-center">Memuat data...</p>;
-    if (status === "error") return <p className="text-center">Gagal ambil data</p>;
-
+      localStorage.setItem("token", res.data.token);
+      navigate("/home");
+    } catch (err) {
+      setError(err.response?.data?.message || "Login gagal");
+    }
+  };
     return (
       <div className="min-h-screen bg-orchid-white-50">
         <header className="bg-white border-b py-4 shadow px-6">
@@ -73,6 +48,7 @@
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="username"
                   className="w-full rounded-lg border px-3 py-2"
                   required
                 />
